@@ -34,6 +34,34 @@
       "rollno": "5",
       "branch": "cs",
       "cgpa": "8.6"
+    },
+    {
+      "id": "Kuod5D0wRTw",
+      "name": "sathwik",
+      "rollno": "54",
+      "branch": "cse",
+      "cgpa": "9.8"
+    },
+    {
+      "id": "539_--boRBo",
+      "name": "hero",
+      "rollno": "55",
+      "branch": "it",
+      "cgpa": "8.5"
+    },
+    {
+      "id": "Xr6TULLyr1Y",
+      "name": "aniket",
+      "rollno": "15",
+      "branch": "cse",
+      "cgpa": "9.3"
+    },
+    {
+      "id": "K1-DiVAl1Sc",
+      "name": "aniket",
+      "rollno": "2",
+      "branch": "",
+      "cgpa": ""
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
