@@ -3,31 +3,46 @@
 const registerForm = document.getElementById("registerForm");
 
 if (registerForm) {
-    registerForm.addEventListener("submit", function (e) {
-        e.preventDefault();
+  registerForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-        const email = document.getElementById("email").value;
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        const confirmPassword =
-            document.getElementById("confirmPassword").value;
+    try {
+      const email = document.getElementById("email").value.trim();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const confirmPassword = document.getElementById("confirmPassword").value.trim();
 
-        if (password !== confirmPassword) {
-            alert("Passwords do not match");
-            return;
-        }
+      if (!email || !username || !password || !confirmPassword) {
+        alert("Please fill all fields");
+        return;
+      }
 
-        const user = {
-            email,
-            username,
-            password
-        };
+      if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
 
-        localStorage.setItem("user", JSON.stringify(user));
+      const user = { email, username, password };
 
-        alert("Registration Successful");
-        window.location.href = "login.html";
-    });
+      const res = await fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+      });
+
+      if (!res.ok) {
+        throw new Error("Registration failed");
+      }
+
+      alert("Registration Successful");
+      window.location.href = "login.html";
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error: " + error.message);
+    }
+  });
 }
 
 // ================= LOGIN =================
@@ -293,3 +308,8 @@ if (
 
     window.location.href = "login.html";
 }
+
+
+
+
+
