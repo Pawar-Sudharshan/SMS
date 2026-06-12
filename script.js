@@ -194,7 +194,7 @@ async function deleteStudent(id) {
 // ================= EDIT STUDENT =================
 function editStudent(id) {
   localStorage.setItem("editId", id);
-  window.location.href = "editstudent.html";
+  window.location.href = "editStudent.html";
 }
 const editStudentForm = document.getElementById("editStudentForm");
 
@@ -271,7 +271,7 @@ const protectedPages = [
   "dashboard.html",
   "addstudent.html",
   "viewstudent.html",
-  "editstudent.html",
+  "editStudent.html",
 ];
 
 const currentPage = window.location.pathname.split("/").pop();
