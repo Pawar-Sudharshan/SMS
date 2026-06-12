@@ -160,12 +160,12 @@ async function displayStudents() {
                 <td>${student.branch}</td>
                 <td>${student.cgpa}</td>
                 <td>
-                    <button onclick="editStudent('${student.id}')" class="btn btn-primary btn-sm">
-                        Edit
-                    </button>
+                 <button onclick="editStudent('${student.id}')" class="btn btn-primary btn-sm">
+  Edit
+</button>
 
-                
-<button onclick="deleteStudent('${student.id}')" class="btn btn-danger btn-sm">Delete</button>                </td>
+<button onclick="deleteStudent('${student.id}')" class="btn btn-danger btn-sm">Delete</button>  
+              </td>
             </tr>
         `;
   });
@@ -192,50 +192,70 @@ async function deleteStudent(id) {
 }
 
 // ================= EDIT STUDENT =================
-
 function editStudent(id) {
   localStorage.setItem("editId", id);
-
   window.location.href = "editstudent.html";
 }
-
 const editStudentForm = document.getElementById("editStudentForm");
 
 if (editStudentForm) {
-  let students = JSON.parse(localStorage.getItem("students")) || [];
+  loadStudentData();
 
-  const editId = Number(localStorage.getItem("editId"));
+  async function loadStudentData() {
+    try {
+      const editId = localStorage.getItem("editId");
 
-  const student = students.find((s) => s.id === editId);
+      const res = await fetch(`http://localhost:3000/students/${editId}`);
 
-  if (student) {
-    document.getElementById("name").value = student.name;
+      if (!res.ok) {
+        throw new Error("Failed to fetch student");
+      }
 
-    document.getElementById("rollno").value = student.rollno;
+      const student = await res.json();
 
-    document.getElementById("branch").value = student.branch;
-
-    document.getElementById("cgpa").value = student.cgpa;
+      document.getElementById("name").value = student.name;
+      document.getElementById("rollno").value = student.rollno;
+      document.getElementById("branch").value = student.branch;
+      document.getElementById("cgpa").value = student.cgpa;
+    } catch (err) {
+      console.error("Error loading student:", err);
+      alert("Error: " + err.message);
+    }
   }
 
-  editStudentForm.addEventListener("submit", function (e) {
+  editStudentForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const index = students.findIndex((s) => s.id === editId);
+    try {
+      const editId = localStorage.getItem("editId");
 
-    students[index] = {
-      id: editId,
-      name: document.getElementById("name").value,
-      rollno: document.getElementById("rollno").value,
-      branch: document.getElementById("branch").value,
-      cgpa: document.getElementById("cgpa").value,
-    };
+      const updatedStudent = {
+        id: editId,
+        name: document.getElementById("name").value,
+        rollno: document.getElementById("rollno").value,
+        branch: document.getElementById("branch").value,
+        cgpa: document.getElementById("cgpa").value,
+      };
 
-    localStorage.setItem("students", JSON.stringify(students));
+      const res = await fetch(`http://localhost:3000/students/${editId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedStudent),
+      });
 
-    alert("Student Updated Successfully");
+      if (!res.ok) {
+        throw new Error("Failed to update student");
+      }
 
-    window.location.href = "viewstudent.html";
+      alert("Student Updated Successfully");
+      localStorage.removeItem("editId");
+      window.location.href = "viewstudent.html";
+    } catch (err) {
+      console.error("Error updating student:", err);
+      alert("Error: " + err.message);
+    }
   });
 }
 
