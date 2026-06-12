@@ -20,6 +20,27 @@
       "rollno": "1",
       "branch": "cse",
       "cgpa": "8.5"
+    },
+    {
+      "id": "2k7WLKBpQqY",
+      "name": "Biradar Sumasri",
+      "rollno": "2",
+      "branch": "bsc",
+      "cgpa": "7.9"
+    },
+    {
+      "id": "LpuZT8DPjnA",
+      "name": "sri",
+      "rollno": "5",
+      "branch": "it",
+      "cgpa": "8.9"
+    },
+    {
+      "id": "UQ00uoUZtSE",
+      "name": "sai",
+      "rollno": "5",
+      "branch": "cs",
+      "cgpa": "8.6"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -111,20 +111,19 @@ if (addStudentForm) {
     };
 
     const res = await fetch("http://localhost:3000/students", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(student),
-      });
-
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(student),
+    });
     if (!res.ok) {
       alert("Failed to add student");
       return;
     }
     alert("Student Added Successfully");
-
     window.location.href = "viewstudent.html";
+
   });
 }
 
@@ -138,9 +137,9 @@ if (studentTableBody) {
 
 async function displayStudents() {
   const res = await fetch("http://localhost:3000/students");
-  
+
   const students = await res.json();
-  
+
   studentTableBody.innerHTML = "";
 
   if (students.length === 0) {
@@ -162,13 +161,13 @@ async function displayStudents() {
                 <td>${student.branch}</td>
                 <td>${student.cgpa}</td>
                 <td>
-                    <button onclick="editStudent(${student.id})">
+                    <button onclick="editStudent(${student.id})" class="btn btn-primary btn-sm">
                         Edit
                     </button>
 
-                    <button onclick="deleteStudent(${student.id})">
-                        Delete
-                    </button>
+                    
+
+                    <button onclick="deleteStudent(${student.id})" class="btn btn-danger btn-sm">Delete</button>
                 </td>
             </tr>
         `;
@@ -178,15 +177,21 @@ async function displayStudents() {
 // ================= DELETE STUDENT =================
 
 async function deleteStudent(id) {
-  let students = JSON.parse(localStorage.getItem("students")) || [];
+  try {
+    const res = await fetch(`http://localhost:3000/students/${id}`, {
+      method: "DELETE",
+    });
 
-  students = students.filter((student) => student.id !== id);
+    if (!res.ok) {
+      throw new Error("Failed to delete student");
+    }
 
-  localStorage.setItem("students", JSON.stringify(students));
-
-  alert("Student Deleted Successfully");
-
-  displayStudents();
+    alert("Student Deleted Successfully");
+    displayStudents();
+  } catch (err) {
+    console.error("Error deleting student:", err);
+    alert("Error: " + err.message);
+  }
 }
 
 // ================= EDIT STUDENT =================
