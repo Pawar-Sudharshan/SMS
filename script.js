@@ -123,7 +123,6 @@ if (addStudentForm) {
     }
     alert("Student Added Successfully");
     window.location.href = "viewstudent.html";
-
   });
 }
 
@@ -161,14 +160,12 @@ async function displayStudents() {
                 <td>${student.branch}</td>
                 <td>${student.cgpa}</td>
                 <td>
-                    <button onclick="editStudent(${student.id})" class="btn btn-primary btn-sm">
+                    <button onclick="editStudent('${student.id}')" class="btn btn-primary btn-sm">
                         Edit
                     </button>
 
-                    
-
-                    <button onclick="deleteStudent(${student.id})" class="btn btn-danger btn-sm">Delete</button>
-                </td>
+                
+<button onclick="deleteStudent('${student.id}')" class="btn btn-danger btn-sm">Delete</button>                </td>
             </tr>
         `;
   });
@@ -185,7 +182,7 @@ async function deleteStudent(id) {
     if (!res.ok) {
       throw new Error("Failed to delete student");
     }
-
+    console.log("Student deleted successfully");
     alert("Student Deleted Successfully");
     displayStudents();
   } catch (err) {
