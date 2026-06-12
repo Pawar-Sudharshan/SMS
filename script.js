@@ -99,7 +99,7 @@ if (loginForm) {
 const addStudentForm = document.getElementById("addStudentForm");
 
 if (addStudentForm) {
-  addStudentForm.addEventListener("submit", function (e) {
+  addStudentForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const student = {
@@ -110,12 +110,18 @@ if (addStudentForm) {
       cgpa: document.getElementById("cgpa").value,
     };
 
-    let students = JSON.parse(localStorage.getItem("students")) || [];
+    const res = await fetch("http://localhost:3000/students", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(student),
+      });
 
-    students.push(student);
-
-    localStorage.setItem("students", JSON.stringify(students));
-
+    if (!res.ok) {
+      alert("Failed to add student");
+      return;
+    }
     alert("Student Added Successfully");
 
     window.location.href = "viewstudent.html";

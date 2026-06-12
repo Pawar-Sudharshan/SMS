@@ -13,6 +13,14 @@
       "id": "DXEmZJnXIYQ"
     }
   ],
-  "students": [],
+  "students": [
+    {
+      "id": "q2yG1nFNrKY",
+      "name": "sudharshan",
+      "rollno": "1",
+      "branch": "cse",
+      "cgpa": "8.5"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
