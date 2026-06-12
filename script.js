@@ -136,9 +136,11 @@ if (studentTableBody) {
   displayStudents();
 }
 
-function displayStudents() {
-  let students = JSON.parse(localStorage.getItem("students")) || [];
-
+async function displayStudents() {
+  const res = await fetch("http://localhost:3000/students");
+  
+  const students = await res.json();
+  
   studentTableBody.innerHTML = "";
 
   if (students.length === 0) {
@@ -175,7 +177,7 @@ function displayStudents() {
 
 // ================= DELETE STUDENT =================
 
-function deleteStudent(id) {
+async function deleteStudent(id) {
   let students = JSON.parse(localStorage.getItem("students")) || [];
 
   students = students.filter((student) => student.id !== id);
